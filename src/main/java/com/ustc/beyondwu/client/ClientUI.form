@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.ustc.beyondwu.client.ClientUI">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="37d1f" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="bevel-lowered"/>
+        <children>
+          <component id="1865b" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="服务器地址："/>
+            </properties>
+          </component>
+          <component id="e7242" class="javax.swing.JTextField" binding="ServerIP">
+            <constraints/>
+            <properties>
+              <columns value="12"/>
+              <text value="127.0.0.1"/>
+            </properties>
+          </component>
+          <component id="c9d6" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="服务器端口："/>
+            </properties>
+          </component>
+          <component id="71f3b" class="javax.swing.JTextField" binding="ServerPort">
+            <constraints/>
+            <properties>
+              <columns value="6"/>
+              <text value="5600"/>
+            </properties>
+          </component>
+          <component id="5fbad" class="javax.swing.JButton" binding="ConnectBtn">
+            <constraints/>
+            <properties>
+              <background color="-1"/>
+              <hideActionText value="false"/>
+              <horizontalAlignment value="0"/>
+              <text value="连接"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="94a95" binding="MessagePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="49963" layout-manager="BorderLayout" hgap="0" vgap="200">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="7ddc1" class="javax.swing.JLabel">
+                <constraints border-constraint="North"/>
+                <properties>
+                  <horizontalTextPosition value="2"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="42ef5" class="javax.swing.JLabel">
+            <constraints border-constraint="North"/>
+            <properties>
+              <font size="18"/>
+              <text value="消息内容："/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="a1bf8" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="13e1e" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="输入消息："/>
+            </properties>
+          </component>
+          <component id="88acf" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+            <constraints/>
+            <properties>
+              <columns value="30"/>
+              <toolTipText value="请在此输入消息"/>
+            </properties>
+          </component>
+          <component id="32cea" class="javax.swing.JButton" binding="发送Button" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="发送"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

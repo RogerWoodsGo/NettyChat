@@ -1,4 +1,4 @@
-package com.ustc.beyondwu;
+package com.ustc.beyondwu.server;
 
 /**
  * Created by beyondwu on 2016/2/22.
