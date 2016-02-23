@@ -23,6 +23,7 @@ public class ClientUI implements ClientObserver {
     public ClientUI() {
         client = new NettyClient();
         client.register(this);
+        client.clientInit();
         msgContent.setLineWrap(true);
         msgContent.setWrapStyleWord(true);
         addConnectListener();

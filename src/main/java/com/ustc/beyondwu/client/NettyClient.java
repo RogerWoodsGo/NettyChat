@@ -3,6 +3,8 @@ package com.ustc.beyondwu.client;
 
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -18,13 +20,17 @@ import java.util.List;
 public class NettyClient {
 
     private String clientName = "beyondwu";
+    public static final int BUFFER_SIZE = 1024;
+    public static final int HISTORY_LIST_SIZE = 30;
     private String serverIP;
     private Integer serverPort;
     private ChannelFuture chanFuture;
     private Bootstrap bootstrap;
+    private ChannelPipeline chanPipeline;
 
     private String newMessage;
     private String messages;
+    private MessageHandler msgHandler;
     private List<String> historyMessage;
     private List<ClientObserver> observerList;
 
@@ -34,10 +40,11 @@ public class NettyClient {
         observerList = new ArrayList<ClientObserver>();
     }
 
-    public void clientInit() throws Exception {
+    public void clientInit() {
 
         // Configure the client.
         EventLoopGroup group = new NioEventLoopGroup();
+        msgHandler = new MessageHandler(this);
         try {
             bootstrap = new Bootstrap();
             bootstrap.group(group)
@@ -46,13 +53,19 @@ public class NettyClient {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
+                            chanPipeline = ch.pipeline();
+
+
 
                             //p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(new MessageHandler());
+                            chanPipeline.addLast(msgHandler);
                         }
                     });
-        } finally {
+        }
+        catch (Exception e1){
+            e1.printStackTrace();
+        }
+        finally {
             // Shut down the event loop to terminate all threads.
             group.shutdownGracefully();
         }
@@ -93,13 +106,22 @@ public class NettyClient {
 
     public void sendMsg(String msg) {
         //Send to Server
-
-        newMessage = msg;
-        if (historyMessage.size() > 10)
+        ByteBuf sendMsg = Unpooled.buffer(BUFFER_SIZE);
+        sendMsg.writeBytes(msg.getBytes());
+        chanPipeline.writeAndFlush(sendMsg);
+        newMessage = clientName + ": " + msg;
+        if (historyMessage.size() > HISTORY_LIST_SIZE)
             historyMessage.remove(0);
         historyMessage.add(newMessage);
+        notifyAll();
     }
 
+    public void receiveMsg(String msg){
+        if (historyMessage.size() > HISTORY_LIST_SIZE)
+            historyMessage.remove(0);
+        historyMessage.add("server: " + msg);
+        notifyObserver();
+    }
     public void register(ClientObserver observer) {
         observerList.add(observer);
     }
