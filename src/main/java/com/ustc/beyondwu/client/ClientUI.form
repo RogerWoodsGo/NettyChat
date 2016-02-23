@@ -59,10 +59,9 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="7ddc1" class="javax.swing.JLabel">
+              <component id="73fb3" class="javax.swing.JTextArea" binding="msgContent">
                 <constraints border-constraint="North"/>
                 <properties>
-                  <horizontalTextPosition value="2"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -88,14 +87,14 @@
               <text value="输入消息："/>
             </properties>
           </component>
-          <component id="88acf" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="88acf" class="javax.swing.JTextField" binding="msgInput">
             <constraints/>
             <properties>
               <columns value="30"/>
               <toolTipText value="请在此输入消息"/>
             </properties>
           </component>
-          <component id="32cea" class="javax.swing.JButton" binding="发送Button" default-binding="true">
+          <component id="32cea" class="javax.swing.JButton" binding="SendButton">
             <constraints/>
             <properties>
               <text value="发送"/>
