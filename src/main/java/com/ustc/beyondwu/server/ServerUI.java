@@ -1,8 +1,10 @@
 package com.ustc.beyondwu.server;
 
+import javax.net.ssl.SSLException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.cert.CertificateException;
 
 /**
  * Created by beyondwu on 2016/2/22.
@@ -22,7 +24,13 @@ public class ServerUI {
 
     public ServerUI() {
         NettyServer backendServer = new NettyServer();
-        backendServer.serverInit();
+        try {
+            backendServer.serverInit();
+        } catch (SSLException e) {
+            e.printStackTrace();
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        }
         SendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

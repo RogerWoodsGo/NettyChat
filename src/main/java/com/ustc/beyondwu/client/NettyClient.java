@@ -27,10 +27,12 @@ public class NettyClient {
     private ChannelFuture chanFuture;
     private Bootstrap bootstrap;
     private ChannelPipeline chanPipeline;
+    private EventLoopGroup group;
+    private Channel socketChannel;
 
     private String newMessage;
     private String messages;
-    private MessageHandler msgHandler;
+    private ClientMessageHandler msgHandler;
     private List<String> historyMessage;
     private List<ClientObserver> observerList;
 
@@ -43,52 +45,39 @@ public class NettyClient {
     public void clientInit() {
 
         // Configure the client.
-        EventLoopGroup group = new NioEventLoopGroup();
-        msgHandler = new MessageHandler(this);
+         group = new NioEventLoopGroup();
+        msgHandler = new ClientMessageHandler(this);
         try {
             bootstrap = new Bootstrap();
+           // msgHandler = new ClientMessageHandler();
             bootstrap.group(group)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
-                    .handler(new ChannelInitializer<SocketChannel>() {
+                    .handler(new ChannelInitializer<SocketChannel>(){
                         @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            chanPipeline = ch.pipeline();
-
-
-
-                            //p.addLast(new LoggingHandler(LogLevel.INFO));
+                        protected void initChannel(SocketChannel socketChannel) throws Exception {
+                            chanPipeline = socketChannel.pipeline();
                             chanPipeline.addLast(msgHandler);
                         }
                     });
+           // socketChannel = bootstrap.connect(serverIP, serverPort).sync().channel();
+
         }
         catch (Exception e1){
             e1.printStackTrace();
         }
-        finally {
-            // Shut down the event loop to terminate all threads.
-            group.shutdownGracefully();
-        }
+
     }
 
-    public void setNewMessage(String newMessage) {
-        this.newMessage = newMessage;
-    }
-
-    public void setServerIP(String serverIP) {
-        this.serverIP = serverIP;
-    }
-
-    public void setServerPort(Integer serverPort) {
-        this.serverPort = serverPort;
-    }
 
     public String getMessages() {
         Iterator<String> iter = historyMessage.iterator();
+        messages = "";
         while (iter.hasNext()) {
             messages += iter.next();
             messages += "\r\n";
         }
+        System.out.println(messages);
         return messages;
     }
 
@@ -96,10 +85,17 @@ public class NettyClient {
         // Start the client.
         try {
             chanFuture = bootstrap.connect(IP, port).sync();
+            socketChannel = chanFuture.channel();
+
             // Wait until the connection is closed.
-            chanFuture.channel().closeFuture().sync();
+            System.out.println("connect");
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        finally {
+            // Shut down the event loop to terminate all threads.
+            //System.out.println("close");
+           // group.shutdownGracefully();
         }
         return 1;
     }
@@ -108,20 +104,20 @@ public class NettyClient {
         //Send to Server
         ByteBuf sendMsg = Unpooled.buffer(BUFFER_SIZE);
         sendMsg.writeBytes(msg.getBytes());
-        chanPipeline.writeAndFlush(sendMsg);
+        System.out.println("Going to Send: " + msg);
+        socketChannel.writeAndFlush(sendMsg);
         newMessage = clientName + ": " + msg;
-        if (historyMessage.size() > HISTORY_LIST_SIZE)
-            historyMessage.remove(0);
-        historyMessage.add(newMessage);
-        notifyAll();
+        updateMsg(newMessage);
     }
 
-    public void receiveMsg(String msg){
+    public  void updateMsg(String msg){
         if (historyMessage.size() > HISTORY_LIST_SIZE)
             historyMessage.remove(0);
-        historyMessage.add("server: " + msg);
+        historyMessage.add(msg);
+        //System.out.println(historyMessage.size());
         notifyObserver();
     }
+
     public void register(ClientObserver observer) {
         observerList.add(observer);
     }

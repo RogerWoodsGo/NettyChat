@@ -69,6 +69,8 @@ public class ClientUI implements ClientObserver {
 
     @Override
     public void update() {
+        //msgContent.setText("");
+        //System.out.println(client.getMessages());
         msgContent.setText(client.getMessages());
     }
 
