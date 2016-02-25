@@ -1,13 +1,8 @@
 package com.ustc.beyondwu.client;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
  * Created by beyondwu on 2016/2/23.
@@ -21,10 +16,6 @@ public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
      * Creates a client-side handler.
      */
     public ClientMessageHandler(NettyClient client) {
-//        firstMessage = Unpooled.buffer(1024);
-//        for (int i = 0; i < firstMessage.capacity(); i ++) {
-//            firstMessage.writeByte((byte) i);
-//        }
         this.client = client;
     }
 
@@ -32,7 +23,6 @@ public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) {
         // ctx.writeAndFlush(sendMessage);
         System.out.println("Connect Successfully");
-       // ctx.writeAndFlush((ByteBuf)Unpooled.buffer(1024).writeBytes(new String("abc").getBytes()));
     }
 
    @Override
@@ -45,14 +35,11 @@ public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
        try {
            while (bufIn.isReadable()) { // (1)
                bufIn.readBytes(tmpBytes);
-               // System.out.println(bufIn.readByte());
                inputData += new String(tmpBytes);
-               //System.out.print((char) in.readByte());
-               //System.out.flush();
 
            }
        } finally {
-           System.out.println("received data: " + inputData + tmpBytes.length);
+           //System.out.println("received data: " + inputData + tmpBytes.length);
        }
        client.updateMsg("server: " + inputData);
 
@@ -62,7 +49,7 @@ public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-        //ctx.flush();
+        ctx.flush();
     }
 
     @Override

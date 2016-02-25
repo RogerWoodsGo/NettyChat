@@ -1,12 +1,11 @@
 package com.ustc.beyondwu.server;
 
-import com.ustc.beyondwu.client.NettyClient;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
+
 
 /**
  * Created by beyondwu on 2016/2/24.
@@ -22,11 +21,7 @@ public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
         try {
             while (bufIn.isReadable()) { // (1)
                 bufIn.readBytes(tmpBytes);
-                // System.out.println(bufIn.readByte());
                 inputData += new String(tmpBytes);
-                //System.out.print((char) in.readByte());
-                //System.out.flush();
-
             }
         } finally {
             System.out.println("readed data: " + inputData + tmpBytes.length);
@@ -37,13 +32,11 @@ public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
         if (!cf.isSuccess()) {
             System.out.println("Send failed: " + cf.cause());
         }
-        //ctx.write(msg);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
         System.out.println("Start to Flush!");
-        //ctx.flush();
     }
 
     @Override

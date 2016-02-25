@@ -67,14 +67,12 @@ public class NettyServer {
 
                 f.channel().closeFuture().sync();
                 // Wait until the server socket is closed.
-                System.out.println("This is called1");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
 
         } finally {
-            System.out.println("This is called");
             // Shut down all event loops to terminate all threads.
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();

@@ -61,7 +61,6 @@ public class NettyClient {
                         }
                     });
            // socketChannel = bootstrap.connect(serverIP, serverPort).sync().channel();
-
         }
         catch (Exception e1){
             e1.printStackTrace();
@@ -77,7 +76,6 @@ public class NettyClient {
             messages += iter.next();
             messages += "\r\n";
         }
-        System.out.println(messages);
         return messages;
     }
 
@@ -94,7 +92,6 @@ public class NettyClient {
         }
         finally {
             // Shut down the event loop to terminate all threads.
-            //System.out.println("close");
            // group.shutdownGracefully();
         }
         return 1;
@@ -114,7 +111,6 @@ public class NettyClient {
         if (historyMessage.size() > HISTORY_LIST_SIZE)
             historyMessage.remove(0);
         historyMessage.add(msg);
-        //System.out.println(historyMessage.size());
         notifyObserver();
     }
 
