@@ -17,7 +17,7 @@ public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
         System.out.println(msg.toString());
         ByteBuf bufIn = (ByteBuf) msg;
         byte[] tmpBytes = new byte[bufIn.readableBytes()];
-        String inputData = new String();
+        String inputData = "";
         try {
             while (bufIn.isReadable()) { // (1)
                 bufIn.readBytes(tmpBytes);
@@ -27,10 +27,10 @@ public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
             System.out.println("readed data: " + inputData + tmpBytes.length);
         }
         ByteBuf sendMsg = Unpooled.buffer(1024);
-        sendMsg.writeBytes(new String(inputData).getBytes());
+        sendMsg.writeBytes(inputData.getBytes());
         ChannelFuture cf = ctx.writeAndFlush(sendMsg);
         if (!cf.isSuccess()) {
-            System.out.println("Send failed: " + cf.cause());
+            System.out.println("Send failed: ");
         }
     }
 

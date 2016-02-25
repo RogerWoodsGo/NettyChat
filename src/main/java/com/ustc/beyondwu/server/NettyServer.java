@@ -18,7 +18,6 @@ import java.security.cert.CertificateException;
  * Created by beyondwu on 2016/2/22.
  */
 public class NettyServer {
-    ChannelPipeline chanPipeline;
     static final boolean SSL = System.getProperty("ssl") != null;
 
     public NettyServer() {
@@ -30,7 +29,7 @@ public class NettyServer {
         // Configure SSL.
         final SslContext sslCtx;
         if (SSL) {
-            SelfSignedCertificate ssc = null;
+            SelfSignedCertificate ssc;
 
             ssc = new SelfSignedCertificate();
             sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
@@ -61,7 +60,7 @@ public class NettyServer {
                     });
 
             // Start the server.
-            ChannelFuture f = null;
+            ChannelFuture f;
             try {
                 f = b.bind(5600).sync();
 

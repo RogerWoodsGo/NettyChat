@@ -31,7 +31,7 @@ public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
        System.out.println("Get Message");
        ByteBuf bufIn = (ByteBuf) msg;
        byte[] tmpBytes = new byte[bufIn.readableBytes()];
-       String inputData = new String();
+       String inputData = "";
        try {
            while (bufIn.isReadable()) { // (1)
                bufIn.readBytes(tmpBytes);
@@ -39,7 +39,7 @@ public class ClientMessageHandler extends ChannelInboundHandlerAdapter {
 
            }
        } finally {
-           //System.out.println("received data: " + inputData + tmpBytes.length);
+           System.out.println("received data: " + inputData + tmpBytes.length);
        }
        client.updateMsg("server: " + inputData);
 

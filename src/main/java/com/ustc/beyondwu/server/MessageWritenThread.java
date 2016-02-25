@@ -1,14 +1,10 @@
 package com.ustc.beyondwu.server;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 /**
  * Created by beyondwu on 2016/2/24.
  */
-public class MessageWritenThread implements Runnable{
-        private String message = "";
+/*public class MessageWritenThread implements Runnable{
+
 
         public MessageWritenThread() {
             new Thread(this).start();
@@ -16,6 +12,7 @@ public class MessageWritenThread implements Runnable{
 
         @Override
         public void run() {
+            String message;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Ready to chat ");
             while(true) {
@@ -32,4 +29,4 @@ public class MessageWritenThread implements Runnable{
             }
 
         }
-}
+}*/

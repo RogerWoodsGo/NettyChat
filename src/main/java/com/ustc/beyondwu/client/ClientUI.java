@@ -17,7 +17,6 @@ public class ClientUI implements ClientObserver {
     private JButton SendButton;
     private JTextArea msgContent;
     private NettyClient client;
-    private String errorMessage;
 
 
     public ClientUI() {
