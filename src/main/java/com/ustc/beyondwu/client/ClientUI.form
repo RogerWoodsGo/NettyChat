@@ -22,7 +22,7 @@
             <constraints/>
             <properties>
               <columns value="12"/>
-              <text value="10.200.38.245"/>
+              <text value="10.200.52.3"/>
             </properties>
           </component>
           <component id="c9d6" class="javax.swing.JLabel">

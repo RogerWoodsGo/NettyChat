@@ -28,11 +28,9 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="507cb" class="javax.swing.JLabel">
+              <component id="7bb6a" class="javax.swing.JTextArea" binding="contentArea">
                 <constraints border-constraint="North"/>
-                <properties>
-                  <text value="Label"/>
-                </properties>
+                <properties/>
               </component>
             </children>
           </grid>

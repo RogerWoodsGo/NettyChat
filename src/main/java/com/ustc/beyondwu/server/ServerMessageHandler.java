@@ -1,8 +1,6 @@
 package com.ustc.beyondwu.server;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -11,6 +9,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * Created by beyondwu on 2016/2/24.
  */
 public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("Received Message");
@@ -26,12 +25,13 @@ public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
         } finally {
             System.out.println("readed data: " + inputData + tmpBytes.length);
         }
-        ByteBuf sendMsg = Unpooled.buffer(1024);
+
+        /*ByteBuf sendMsg = Unpooled.buffer(1024);
         sendMsg.writeBytes(inputData.getBytes());
         ChannelFuture cf = ctx.writeAndFlush(sendMsg);
         if (!cf.isSuccess()) {
             System.out.println("Send failed: ");
-        }
+        }*/
     }
 
     @Override
@@ -45,4 +45,12 @@ public class ServerMessageHandler extends ChannelInboundHandlerAdapter {
         cause.printStackTrace();
         ctx.close();
     }
+  /*  public void sendMsg(String msg){
+        ByteBuf sendMsg = Unpooled.buffer(1024);
+        sendMsg.writeBytes(msg.getBytes());
+        ChannelFuture cf = ctx.writeAndFlush(sendMsg);
+        if (!cf.isSuccess()) {
+            System.out.println("Send failed: ");
+        }
+    }*/
 }
